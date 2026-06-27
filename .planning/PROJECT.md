@@ -80,7 +80,9 @@ else matters.
 ## Constraints
 
 - **Tech stack**: Modern Fortran (free-form, `implicit none`, `real64` kinds), compiled
-  with `gfortran` via `make`. — User's chosen language for a scientific-computing project.
+  with `gfortran` and built with **fpm** (Fortran Package Manager). — User's chosen
+  language for a scientific-computing project; fpm chosen over a plain Makefile for
+  automatic module compile-order resolution and built-in `fpm run`/`fpm test`.
 - **Output format**: CSV files (plus a brief console summary). — User wants to plot
   results in external tools; no built-in graphics.
 - **Data**: Realistic-ish HCMC district parameters loaded from a data/config file. —
@@ -99,6 +101,7 @@ else matters.
 | What-if scenario comparison included in v1 | Quantifying "more trees → how much cooler" is the key illustrative payoff | — Pending |
 | CSV output (vs. ASCII map / image) | Lets user plot nicely in external tools; keeps Fortran core simple | — Pending |
 | Heat index + UHI offset model | Standard, transparent parameterization matching the user's input factors | — Pending |
+| Build with fpm (vs plain Makefile) | fpm auto-resolves Fortran module compile order (the #1 hand-written-Makefile pain) and gives `fpm run`/`fpm test` for free; research-recommended | — Pending |
 
 ## Evolution
 
