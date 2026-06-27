@@ -92,26 +92,26 @@ Which phases cover which requirements. **Populated during roadmap creation.**
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| GRID-01 | TBD | Pending |
-| GRID-02 | TBD | Pending |
-| GRID-03 | TBD | Pending |
-| GRID-04 | TBD | Pending |
-| HEAT-01 | TBD | Pending |
-| HEAT-02 | TBD | Pending |
-| UHI-01 | TBD | Pending |
-| UHI-02 | TBD | Pending |
-| TIME-01 | TBD | Pending |
-| TIME-02 | TBD | Pending |
-| SCEN-01 | TBD | Pending |
-| SCEN-02 | TBD | Pending |
-| OUT-01 | TBD | Pending |
-| OUT-02 | TBD | Pending |
+| GRID-01 | Phase 1 | Pending |
+| GRID-02 | Phase 1 | Pending |
+| GRID-03 | Phase 1 | Pending |
+| GRID-04 | Phase 1 | Pending |
+| HEAT-01 | Phase 2 | Pending |
+| HEAT-02 | Phase 2 | Pending |
+| UHI-01 | Phase 2 | Pending |
+| UHI-02 | Phase 2 | Pending |
+| TIME-01 | Phase 3 | Pending |
+| TIME-02 | Phase 3 | Pending |
+| SCEN-01 | Phase 3 | Pending |
+| SCEN-02 | Phase 3 | Pending |
+| OUT-01 | Phase 4 | Pending |
+| OUT-02 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 14 total
-- Mapped to phases: 0 (roadmap pending)
-- Unmapped: 14 ⚠️ (resolved by roadmap)
+- Mapped to phases: 14 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-06-28*
-*Last updated: 2026-06-28 after initial definition*
+*Last updated: 2026-06-28 after roadmap creation (traceability populated)*
