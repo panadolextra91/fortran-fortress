@@ -578,9 +578,15 @@ Nha Be Peri-urban,6,3,30.8,83,0.5,0.30,0.45,0
 
 **Note:** A1–A4 all converge on the same safe action — *do not trust fpm flag defaults; set them explicitly and confirm with `fpm build --verbose` at execute time*. The planner should encode that verification as a checkpoint task.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Exact fpm.toml profile/flag syntax for the installed version**
+> **RESOLVED:** Each open question below is resolved for planning — every Recommendation has
+> been adopted by the Phase 1 plans. Question 1 carries a residual MEDIUM-confidence risk
+> (exact manifest key path in the installed fpm) deliberately deferred to 01-01's blocking
+> `fpm build --verbose` checkpoint with a documented `--flag` fallback; Questions 2 and 3 are
+> fully settled.
+
+1. **RESOLVED — Exact fpm.toml profile/flag syntax for the installed version**
    - What we know: fpm supports per-profile per-compiler flag overrides; built-in `debug`/`release` exist; `--flag` works everywhere.
    - What's unclear: the precise TOML key path in fpm 0.13.0 (`[profiles.release.gfortran]` vs a newer `[features]`+`[profiles]` model the docs site describes).
    - Recommendation: hand-write the manifest with the `[profiles.*.gfortran]` form, then **verify with `fpm build --verbose`** immediately after `brew install fpm`; fall back to documented `--flag` commands if the manifest form is rejected.
