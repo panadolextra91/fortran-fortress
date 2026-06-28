@@ -21,7 +21,7 @@ contains
 
     subroutine collect_io_tests(testsuite)
         type(unittest_type), allocatable, intent(out) :: testsuite(:)
-        allocate(testsuite(7))
+        allocate(testsuite(8))
         testsuite(1) = new_unittest('test_valid', test_valid)
         testsuite(2) = new_unittest('test_bad_cols', test_bad_cols)
         testsuite(3) = new_unittest('test_bad_num', test_bad_num)
@@ -29,6 +29,7 @@ contains
         testsuite(5) = new_unittest('test_bad_dup', test_bad_dup)
         testsuite(6) = new_unittest('test_coeffs', test_coeffs)
         testsuite(7) = new_unittest('test_coeffs_partial', test_coeffs_partial)
+        testsuite(8) = new_unittest('test_bad_d0', test_bad_d0)
     end subroutine collect_io_tests
 
     subroutine test_valid(error)
@@ -117,5 +118,15 @@ contains
         call check(error, c%ny == 10)
         call check(error, abs(c%w_urban - 1.0_wp) < 1.0e-5_wp) ! default retained
     end subroutine test_coeffs_partial
+
+    subroutine test_bad_d0(error)
+        type(error_type), allocatable, intent(out) :: error
+        type(coeffs_t) :: c
+        integer :: stat
+        character(len=512) :: msg
+        
+        call read_coeffs_nml('test/fixtures/coeffs_bad_d0.nml', c, stat, msg)
+        call check(error, stat /= 0)
+    end subroutine test_bad_d0
 
 end program test_io

@@ -9,6 +9,7 @@
   m_predawn = 1.0
   t_base = 28.0
   rh_base = 78.0
+  d0 = 2.5
   nx = 8
   ny = 10
 /

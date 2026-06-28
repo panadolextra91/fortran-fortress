@@ -18,13 +18,13 @@ contains
         
         real(wp) :: w_build, w_urban, w_tree, w_water
         real(wp) :: m_morning, m_afternoon, m_evening, m_predawn
-        real(wp) :: t_base, rh_base
+        real(wp) :: t_base, rh_base, d0
         integer :: nx, ny
         integer :: u, ios
         
         namelist /coeffs/ w_build, w_urban, w_tree, w_water, &
                           m_morning, m_afternoon, m_evening, m_predawn, &
-                          t_base, rh_base, nx, ny
+                          t_base, rh_base, d0, nx, ny
                           
         ! Set defaults FIRST
         w_build = 3.0_wp
@@ -37,6 +37,7 @@ contains
         m_predawn = 1.0_wp
         t_base = 28.0_wp
         rh_base = 78.0_wp
+        d0 = 2.5_wp
         nx = 0
         ny = 0
         
@@ -57,6 +58,12 @@ contains
             return
         end if
         
+        if (d0 <= 0.0_wp) then
+            stat = 1
+            msg = trim(path) // ': d0 must be > 0'
+            return
+        end if
+        
         c%w_build = w_build
         c%w_urban = w_urban
         c%w_tree = w_tree
@@ -67,6 +74,7 @@ contains
         c%m_predawn = m_predawn
         c%t_base = t_base
         c%rh_base = rh_base
+        c%d0 = d0
         c%nx = nx
         c%ny = ny
     end subroutine read_coeffs_nml
