@@ -1,0 +1,38 @@
+ + mkdir -p build/dependencies
+Initialized empty Git repository in /Users/huynhngocanhthu/fortran-fortress/build/dependencies/test-drive/.git/
+From https://github.com/fortran-lang/test-drive
+ * tag               v0.6.0     -> FETCH_HEAD
+ <INFO> BUILD_NAME: build/gfortran
+ <INFO> COMPILER:  gfortran
+ <INFO> C COMPILER:  gcc
+ <INFO> CXX COMPILER: g++
+ <INFO> COMPILER OPTIONS:    -g -O0 -std=f2018 -fimplicit-none -Wall -Wextra -fcheck=all -fbacktrace -ffpe-trap=invalid,zero,overflow -finit-real=snan
+ <INFO> C COMPILER OPTIONS:   
+ <INFO> CXX COMPILER OPTIONS:  
+ <INFO> LINKER OPTIONS:   
+ <INFO> INCLUDE DIRECTORIES:  []
+ + mkdir -p build/gfortran_DD96FDBFF28BAAB3
+ + mkdir -p build/gfortran_6294FC14DB4DFAF1
+ + mkdir -p build/gfortran_81D6AED49E86CA91
+[  0%]                      kinds.f90
+ + mkdir -p build/gfortran_6294FC14DB4DFAF1/fortran_fortress/
+ + gfortran -c ././src/kinds.f90    -g -O0 -std=f2018 -fimplicit-none -Wall -Wextra -fcheck=all -fbacktrace -ffpe-trap=invalid,zero,overflow -finit-real=snan -fimplicit-none -Werror=implicit-interface -ffree-form -J build/gfortran_6294FC14DB4DFAF1 -Ibuild/gfortran_6294FC14DB4DFAF1 -o build/gfortran_6294FC14DB4DFAF1/fortran_fortress/src_kinds.f90.o
+[ 25%]                      kinds.f90  done.
+[ 25%]          libfortran_fortress.a
+ + mkdir -p build/gfortran_DD96FDBFF28BAAB3/fortran_fortress/
+ + ar -rs build/gfortran_DD96FDBFF28BAAB3/fortran_fortress/libfortran_fortress.a build/gfortran_6294FC14DB4DFAF1/fortran_fortress/src_kinds.f90.o
+ar: creating archive build/gfortran_DD96FDBFF28BAAB3/fortran_fortress/libfortran_fortress.a
+[ 50%]          libfortran_fortress.a  done.
+[ 50%]                       main.f90
+ + gfortran -c app/main.f90    -g -O0 -std=f2018 -fimplicit-none -Wall -Wextra -fcheck=all -fbacktrace -ffpe-trap=invalid,zero,overflow -finit-real=snan -fimplicit-none -Werror=implicit-interface -ffree-form -J build/gfortran_6294FC14DB4DFAF1 -Ibuild/gfortran_6294FC14DB4DFAF1 -o build/gfortran_6294FC14DB4DFAF1/fortran_fortress/app_main.f90.o
+app/main.f90:2:8:
+
+    2 |     use kinds_mod, only: wp
+      |        1
+Warning: Unused parameter 'wp' which has been explicitly imported at (1) [-Wunused-parameter]
+[ 75%]                       main.f90  done.
+[ 75%]               fortran_fortress
+ + mkdir -p build/gfortran_81D6AED49E86CA91/app/
+ + gfortran     -g -O0 -std=f2018 -fimplicit-none -Wall -Wextra -fcheck=all -fbacktrace -ffpe-trap=invalid,zero,overflow -finit-real=snan -fimplicit-none -Werror=implicit-interface   build/gfortran_6294FC14DB4DFAF1/fortran_fortress/app_main.f90.o -Wl,-headerpad,0x200  build/gfortran_DD96FDBFF28BAAB3/fortran_fortress/libfortran_fortress.a -o build/gfortran_81D6AED49E86CA91/app/fortran_fortress
+[100%]               fortran_fortress  done.
+[100%] Project compiled successfully.

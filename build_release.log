@@ -1,0 +1,37 @@
+ + feature collection: release
+ +   platform: gfortran on macOS
+ +   flags:  -O3 -Wimplicit-interface -fPIC -fmax-errors=1 -funroll-loops -fcoarray=single
+ +   c-flags:  -O3 -fPIC -fmax-errors=1 -funroll-loops
+ +   cxx-flags:  -O3 -fPIC -fmax-errors=1 -funroll-loops
+ +   cpp-macros: no
+ +   variants:           10
+ + profile: release
+ <INFO> BUILD_NAME: build/gfortran
+ <INFO> COMPILER:  gfortran
+ <INFO> C COMPILER:  gcc
+ <INFO> CXX COMPILER: g++
+ <INFO> COMPILER OPTIONS:    -O2 -std=f2018 -fimplicit-none -Wall  -O3 -Wimplicit-interface -fPIC -fmax-errors=1 -funroll-loops -fcoarray=single
+ <INFO> C COMPILER OPTIONS:     -O3 -fPIC -fmax-errors=1 -funroll-loops
+ <INFO> CXX COMPILER OPTIONS:    -O3 -fPIC -fmax-errors=1 -funroll-loops
+ <INFO> LINKER OPTIONS:   
+ <INFO> INCLUDE DIRECTORIES:  []
+ + mkdir -p build/gfortran_FC246F07B5DD088C
+ + mkdir -p build/gfortran_A9F81DFA29AC0AEE
+ + mkdir -p build/gfortran_AE122277A793F996
+[  0%]                      kinds.f90
+ + mkdir -p build/gfortran_A9F81DFA29AC0AEE/fortran_fortress/
+ + gfortran -c ././src/kinds.f90    -O2 -std=f2018 -fimplicit-none -Wall  -O3 -Wimplicit-interface -fPIC -fmax-errors=1 -funroll-loops -fcoarray=single -fimplicit-none -Werror=implicit-interface -ffree-form -J build/gfortran_A9F81DFA29AC0AEE -Ibuild/gfortran_A9F81DFA29AC0AEE -o build/gfortran_A9F81DFA29AC0AEE/fortran_fortress/src_kinds.f90.o
+[ 25%]                      kinds.f90  done.
+[ 25%]          libfortran_fortress.a
+ + mkdir -p build/gfortran_FC246F07B5DD088C/fortran_fortress/
+ + ar -rs build/gfortran_FC246F07B5DD088C/fortran_fortress/libfortran_fortress.a build/gfortran_A9F81DFA29AC0AEE/fortran_fortress/src_kinds.f90.o
+ar: creating archive build/gfortran_FC246F07B5DD088C/fortran_fortress/libfortran_fortress.a
+[ 50%]          libfortran_fortress.a  done.
+[ 50%]                       main.f90
+ + gfortran -c app/main.f90    -O2 -std=f2018 -fimplicit-none -Wall  -O3 -Wimplicit-interface -fPIC -fmax-errors=1 -funroll-loops -fcoarray=single -fimplicit-none -Werror=implicit-interface -ffree-form -J build/gfortran_A9F81DFA29AC0AEE -Ibuild/gfortran_A9F81DFA29AC0AEE -o build/gfortran_A9F81DFA29AC0AEE/fortran_fortress/app_main.f90.o
+[ 75%]                       main.f90  done.
+[ 75%]               fortran_fortress
+ + mkdir -p build/gfortran_AE122277A793F996/app/
+ + gfortran     -O2 -std=f2018 -fimplicit-none -Wall  -O3 -Wimplicit-interface -fPIC -fmax-errors=1 -funroll-loops -fcoarray=single -fimplicit-none -Werror=implicit-interface   build/gfortran_A9F81DFA29AC0AEE/fortran_fortress/app_main.f90.o -Wl,-headerpad,0x200  build/gfortran_FC246F07B5DD088C/fortran_fortress/libfortran_fortress.a -o build/gfortran_AE122277A793F996/app/fortran_fortress
+[100%]               fortran_fortress  done.
+[100%] Project compiled successfully.
