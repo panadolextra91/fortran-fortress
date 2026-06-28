@@ -11,15 +11,15 @@ Requirements for the initial release. Each maps to roadmap phases.
 
 ### Grid & Data
 
-- [ ] **GRID-01**: The simulator loads a 2D grid of city cells from an editable data file
-      (changing the city data requires no recompile).
-- [ ] **GRID-02**: Each cell carries air temperature, relative humidity, distance to
-      river/ocean, building density, tree density, and an urban/rural classification.
-- [ ] **GRID-03**: The seed data file ships with realistic-ish Ho Chi Minh City district
+- [x] **GRID-01**: The simulator loads a 2D grid of city cells from an editable data file
+      (changing the city data requires no recompile). *(shipped — Phase 1)*
+- [x] **GRID-02**: Each cell carries air temperature, relative humidity, distance to
+      river/ocean, building density, tree density, and an urban/rural classification. *(shipped — Phase 1)*
+- [x] **GRID-03**: The seed data file ships with realistic-ish Ho Chi Minh City district
       archetypes (e.g. District 1 core, industrial zone, park/green cell, Can Gio coast,
-      rural fringe).
-- [ ] **GRID-04**: All model coefficients/weights (UHI weights, diurnal multipliers) live
-      in the config/data file and can be edited without recompiling.
+      rural fringe). *(shipped — Phase 1)*
+- [x] **GRID-04**: All model coefficients/weights (UHI weights, diurnal multipliers) live
+      in the config/data file and can be edited without recompiling. *(shipped — Phase 1)*
 
 ### Feels-like Temperature
 
@@ -92,10 +92,10 @@ Which phases cover which requirements. **Populated during roadmap creation.**
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| GRID-01 | Phase 1 | Pending |
-| GRID-02 | Phase 1 | Pending |
-| GRID-03 | Phase 1 | Pending |
-| GRID-04 | Phase 1 | Pending |
+| GRID-01 | Phase 1 | ✅ Done |
+| GRID-02 | Phase 1 | ✅ Done |
+| GRID-03 | Phase 1 | ✅ Done |
+| GRID-04 | Phase 1 | ✅ Done |
 | HEAT-01 | Phase 2 | Pending |
 | HEAT-02 | Phase 2 | Pending |
 | UHI-01 | Phase 2 | Pending |
@@ -111,7 +111,8 @@ Which phases cover which requirements. **Populated during roadmap creation.**
 - v1 requirements: 14 total
 - Mapped to phases: 14 ✓
 - Unmapped: 0
+- Shipped: 4 (GRID-01..04, Phase 1)
 
 ---
 *Requirements defined: 2026-06-28*
-*Last updated: 2026-06-28 after roadmap creation (traceability populated)*
+*Last updated: 2026-06-28 — Phase 1 complete: GRID-01..04 marked Done in traceability*

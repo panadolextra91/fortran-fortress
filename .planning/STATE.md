@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 1
-current_phase_name: Build Scaffold & Grid Loader
+current_phase: 2
+current_phase_name: Feels-Like Physics (Heat Index + UHI Offset)
 status: executing
-stopped_at: Phase 2 context gathered
+stopped_at: Phase 1 complete; Phase 2 planned (3 plans, ready to execute)
 last_updated: "2026-06-28T07:26:54.142Z"
 last_activity: 2026-06-28
-last_activity_desc: Roadmap created (4 coarse phases, 14/14 requirements mapped)
+last_activity_desc: Phase 1 complete (3 plans); Phase 2 planned (3 plans, 2 waves)
 progress:
   total_phases: 4
   completed_phases: 1
@@ -26,22 +26,28 @@ See: .planning/PROJECT.md (updated 2026-06-28)
 **Core value:** The simulated heat map must be scientifically believable — dense, treeless
 urban cells come out hotter than green/waterfront/rural cells, and the night-time urban-rural
 gap persists/grows — for the same baseline weather.
-**Current focus:** Phase 1 — Build Scaffold & Grid Loader
+**Current focus:** Phase 2 — Feels-Like Physics (Heat Index + UHI Offset)
 
 ## Current Position
 
-Phase: 1 of 4 (Build Scaffold & Grid Loader)
-Plan: 0 of 4 in current phase
+Phase: 2 of 4 (Feels-Like Physics (Heat Index + UHI Offset))
+Plan: 0 of 3 in current phase
 Status: Ready to execute
-Last activity: 2026-06-28 — Roadmap created (4 coarse phases, 14/14 requirements mapped)
+Last activity: 2026-06-28 — Phase 1 complete (3 plans); Phase 2 planned (3 plans, 2 waves)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██░░░░░░░░] 25%
+
+## Phase Completion Log
+
+| Phase | Name | Plans | Status | Completed |
+|-------|------|-------|--------|-----------|
+| 1 | Build Scaffold & Grid Loader | 3/3 | ✅ Complete | 2026-06-28 |
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0
+- Total plans completed: 3
 - Average duration: — min
 - Total execution time: 0.0 hours
 
@@ -49,11 +55,11 @@ Progress: [░░░░░░░░░░] 0%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 1. Build Scaffold & Grid Loader | 3 | — | — |
 
 **Recent Trend:**
 
-- Last 5 plans: —
+- Last 5 plans: 01-01, 01-02, 01-03
 - Trend: —
 
 *Updated after each plan completion*
@@ -68,6 +74,7 @@ Recent decisions affecting current work:
 - [Roadmap]: Build with fpm (vs plain Makefile) — auto-resolves module compile order; Phase 1 retires the Hello-World Makefile scaffold.
 - [Roadmap]: 4 coarse horizontal-layer phases following the acyclic module build order (foundation/grid → physics → diurnal/scenarios → output).
 - [Roadmap]: Two headline science invariants pinned as tested success criteria — UHI-02 (urban>rural ordering) in Phase 2, TIME-02 (`gap_night > gap_afternoon`) in Phase 3.
+- [Phase 1]: 01-04 (seed data + driver + config round-trip test) was consolidated into 01-02 + 01-03 during execution — Phase 1 shipped as 3 plans delivering GRID-01..04.
 
 ### Pending Todos
 
@@ -91,5 +98,5 @@ Items acknowledged and carried forward from previous milestone close:
 ## Session Continuity
 
 Last session: 2026-06-28T07:26:54.135Z
-Stopped at: Phase 2 context gathered
+Stopped at: Phase 1 complete; Phase 2 planned (3 plans, ready to execute)
 Resume file: .planning/phases/02-feels-like-physics-heat-index-uhi-offset/02-CONTEXT.md

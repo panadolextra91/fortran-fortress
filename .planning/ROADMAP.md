@@ -23,7 +23,7 @@ automated tests in the phases that own them.
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Build Scaffold & Grid Loader** - fpm project, foundation modules, and an editable HCMC grid that loads, validates, and prints
+- [x] **Phase 1: Build Scaffold & Grid Loader** - fpm project, foundation modules, and an editable HCMC grid that loads, validates, and prints ✅ Complete (2026-06-28)
 - [ ] **Phase 2: Feels-Like Physics (Heat Index + UHI Offset)** - per-cell apparent temperature with range guard and the urban>rural ordering invariant
 - [ ] **Phase 3: Day-Night Cycle & Scenario Comparison** - diurnal evaluation carrying the night-amplified gap, plus immutable-baseline what-if scenarios
 - [ ] **Phase 4: CSV Export & Console Summary** - deterministic CSV output and the terminal hottest/coolest/average/gap report
@@ -60,16 +60,16 @@ prints the loaded cells. This replaces the throwaway Hello-World Makefile scaffo
 Plans:
 **Wave 1**
 
-- [ ] 01-01: Stand up the fpm project (fpm.toml, src/test layout, dev/release flag profiles, retire the Makefile scaffold)
-- [ ] 01-04: HCMC seed data file + scenario-coefficient config; driver stub that loads, validates, and prints the grid; config read round-trip test
+- [x] 01-01: Stand up the fpm project (fpm.toml, src/test layout, dev/release flag profiles, retire the Makefile scaffold)
+- [x] 01-04: HCMC seed data file + scenario-coefficient config; driver stub that loads, validates, and prints the grid; config read round-trip test *(consolidated into 01-02 + 01-03 during execution)*
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 01-02: Foundation + grid types — kinds_mod (wp=real64), constants_mod, grid_mod (type(cell)/grid_t, allocate-once)
+- [x] 01-02: Foundation + grid types — kinds_mod (wp=real64), constants_mod, grid_mod (type(cell)/grid_t, allocate-once)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 01-03: io_mod reader + config loader — delimited parse with iostat/range validation; load UHI weights & diurnal multipliers
+- [x] 01-03: io_mod reader + config loader — delimited parse with iostat/range validation; load UHI weights & diurnal multipliers
 
 ### Phase 2: Feels-Like Physics (Heat Index + UHI Offset)
 
@@ -173,7 +173,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Build Scaffold & Grid Loader | 0/4 | Not started | - |
+| 1. Build Scaffold & Grid Loader | 3/3 | ✅ Complete | 2026-06-28 |
 | 2. Feels-Like Physics (Heat Index + UHI Offset) | 0/3 | Not started | - |
 | 3. Day-Night Cycle & Scenario Comparison | 0/3 | Not started | - |
 | 4. CSV Export & Console Summary | 0/2 | Not started | - |
