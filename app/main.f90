@@ -2,6 +2,7 @@ program uhi_sim
     use kinds_mod, only: wp
     use grid_mod, only: grid_t, coeffs_t, cell
     use io_mod, only: read_coeffs_nml, read_grid_csv
+    use feels_mod, only: feels_like_c
     use, intrinsic :: iso_fortran_env, only: error_unit, output_unit
     implicit none
     
@@ -14,6 +15,7 @@ program uhi_sim
     
     integer :: i, j
     character(len=1) :: marker
+    real(wp) :: feels
     
     call read_coeffs_nml(COEFFS_PATH, coeffs, stat, msg)
     if (stat /= 0) then
@@ -34,14 +36,18 @@ program uhi_sim
     do j = 1, grid%ny
         do i = 1, grid%nx
             if (grid%cells(i,j)%occupied) then
-                write(output_unit, '(A,A,I0,A,I0,A,A,g0,A,g0,A,g0,A,g0,A,g0,A,L1)') &
+                feels = feels_like_c(coeffs%t_base, grid%cells(i,j)%rh, grid%cells(i,j)%building, &
+                                     grid%cells(i,j)%tree, grid%cells(i,j)%water_km, grid%cells(i,j)%is_urban, &
+                                     coeffs%w_build, coeffs%w_urban, coeffs%w_tree, coeffs%w_water, coeffs%d0)
+                write(output_unit, '(A,A,I0,A,I0,A,A,g0,A,g0,A,g0,A,g0,A,g0,A,L1,A,g0)') &
                     trim(grid%cells(i,j)%name), ' at (', i, ',', j, ') ', &
                     'T=', grid%cells(i,j)%t_air, &
                     ', RH=', grid%cells(i,j)%rh, &
                     ', WKM=', grid%cells(i,j)%water_km, &
                     ', BLD=', grid%cells(i,j)%building, &
                     ', TRE=', grid%cells(i,j)%tree, &
-                    ', URB=', grid%cells(i,j)%is_urban
+                    ', URB=', grid%cells(i,j)%is_urban, &
+                    ', FEELS=', feels
             end if
         end do
     end do
