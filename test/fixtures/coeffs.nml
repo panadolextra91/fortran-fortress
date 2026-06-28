@@ -1,0 +1,14 @@
+&coeffs
+  w_build = 3.5
+  w_urban = 1.2
+  w_tree = 2.0
+  w_water = 2.5
+  m_morning = 0.6
+  m_afternoon = 0.4
+  m_evening = 0.9
+  m_predawn = 1.1
+  t_base = 29.0
+  rh_base = 80.0
+  nx = 8
+  ny = 10
+/

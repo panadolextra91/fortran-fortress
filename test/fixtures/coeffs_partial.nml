@@ -1,0 +1,5 @@
+&coeffs
+  w_build = 3.5
+  nx = 8
+  ny = 10
+/
