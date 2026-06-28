@@ -24,7 +24,7 @@ automated tests in the phases that own them.
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Build Scaffold & Grid Loader** - fpm project, foundation modules, and an editable HCMC grid that loads, validates, and prints ✅ Complete (2026-06-28)
-- [ ] **Phase 2: Feels-Like Physics (Heat Index + UHI Offset)** - per-cell apparent temperature with range guard and the urban>rural ordering invariant
+- [x] **Phase 2: Feels-Like Physics (Heat Index + UHI Offset)** - per-cell apparent temperature with range guard and the urban>rural ordering invariant ✅ Complete (2026-06-28, verified)
 - [ ] **Phase 3: Day-Night Cycle & Scenario Comparison** - diurnal evaluation carrying the night-amplified gap, plus immutable-baseline what-if scenarios
 - [ ] **Phase 4: CSV Export & Console Summary** - deterministic CSV output and the terminal hottest/coolest/average/gap report
 
@@ -100,12 +100,12 @@ green/waterfront/rural) holds and is locked by an automated test.
 Plans:
 **Wave 1** *(parallel — disjoint files)*
 
-- [ ] 02-01-PLAN.md — heat_index_mod: extend constants_mod (c_to_f/f_to_c + Rothfusz coeffs) and add the elemental pure two-branch Steadman/Rothfusz kernel; NWS reference + 80 °F boundary test (HEAT-01, HEAT-02)
-- [ ] 02-02-PLAN.md — uhi_mod: elemental pure single-budget additive offset (Wprox = exp(−water_km/d0)); add tunable d0 to coeffs_t/namelist with fail-loud d0 > 0 guard; sign/monotonicity + magnitude test (UHI-01)
+- [x] 02-01-PLAN.md — heat_index_mod: extend constants_mod (c_to_f/f_to_c + Rothfusz coeffs) and add the elemental pure two-branch Steadman/Rothfusz kernel; NWS reference + 80 °F boundary test (HEAT-01, HEAT-02)
+- [x] 02-02-PLAN.md — uhi_mod: elemental pure single-budget additive offset (Wprox = exp(−water_km/d0)); add tunable d0 to coeffs_t/namelist with fail-loud d0 > 0 guard; sign/monotonicity + magnitude test (UHI-01)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 02-03-PLAN.md — feels_mod wrapper (max(HeatIndex(t_base+ΔT, rh), t_adj)) + wire feels-like into the driver loop + synthetic-archetype dense-urban > green/waterfront/rural ordering test (HEAT-01, HEAT-02, UHI-02)
+- [x] 02-03-PLAN.md — feels_mod wrapper (max(HeatIndex(t_base+ΔT, rh), t_adj)) + wire feels-like into the driver loop + synthetic-archetype dense-urban > green/waterfront/rural ordering test (HEAT-01, HEAT-02, UHI-02)
 
 ### Phase 3: Day-Night Cycle & Scenario Comparison
 
@@ -174,6 +174,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Build Scaffold & Grid Loader | 3/3 | ✅ Complete | 2026-06-28 |
-| 2. Feels-Like Physics (Heat Index + UHI Offset) | 0/3 | Not started | - |
+| 2. Feels-Like Physics (Heat Index + UHI Offset) | 3/3 | ✅ Complete | 2026-06-28 |
 | 3. Day-Night Cycle & Scenario Comparison | 0/3 | Not started | - |
 | 4. CSV Export & Console Summary | 0/2 | Not started | - |

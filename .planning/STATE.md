@@ -2,19 +2,19 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 2
-current_phase_name: Feels-Like Physics (Heat Index + UHI Offset)
+current_phase: 3
+current_phase_name: Day-Night Cycle & Scenario Comparison
 status: executing
-stopped_at: Phase 1 complete; Phase 2 planned (3 plans, ready to execute)
+stopped_at: Phase 2 complete (verified); ready to discuss Phase 3
 last_updated: "2026-06-28T07:26:54.142Z"
 last_activity: 2026-06-28
-last_activity_desc: Phase 1 complete (3 plans); Phase 2 planned (3 plans, 2 waves)
+last_activity_desc: Phase 2 complete (3 plans, verified) — feels-like physics + UHI-02 ordering locked
 progress:
   total_phases: 4
-  completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
-  percent: 25
+  completed_phases: 2
+  total_plans: 6
+  completed_plans: 6
+  percent: 50
 ---
 
 # Project State
@@ -26,28 +26,29 @@ See: .planning/PROJECT.md (updated 2026-06-28)
 **Core value:** The simulated heat map must be scientifically believable — dense, treeless
 urban cells come out hotter than green/waterfront/rural cells, and the night-time urban-rural
 gap persists/grows — for the same baseline weather.
-**Current focus:** Phase 2 — Feels-Like Physics (Heat Index + UHI Offset)
+**Current focus:** Phase 3 — Day-Night Cycle & Scenario Comparison
 
 ## Current Position
 
-Phase: 2 of 4 (Feels-Like Physics (Heat Index + UHI Offset))
-Plan: 0 of 3 in current phase
-Status: Ready to execute
-Last activity: 2026-06-28 — Phase 1 complete (3 plans); Phase 2 planned (3 plans, 2 waves)
+Phase: 3 of 4 (Day-Night Cycle & Scenario Comparison)
+Plan: not yet planned
+Status: Ready to discuss/plan
+Last activity: 2026-06-28 — Phase 2 complete (3 plans, verified): feels-like physics + UHI-02 ordering
 
-Progress: [██░░░░░░░░] 25%
+Progress: [█████░░░░░] 50%
 
 ## Phase Completion Log
 
 | Phase | Name | Plans | Status | Completed |
 |-------|------|-------|--------|-----------|
 | 1 | Build Scaffold & Grid Loader | 3/3 | ✅ Complete | 2026-06-28 |
+| 2 | Feels-Like Physics (Heat Index + UHI Offset) | 3/3 | ✅ Complete (verified) | 2026-06-28 |
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 3
+- Total plans completed: 6
 - Average duration: — min
 - Total execution time: 0.0 hours
 
@@ -56,10 +57,11 @@ Progress: [██░░░░░░░░] 25%
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Build Scaffold & Grid Loader | 3 | — | — |
+| 2. Feels-Like Physics (Heat Index + UHI Offset) | 3 | — | — |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01, 01-02, 01-03
+- Last 5 plans: 01-03, 02-01, 02-02, 02-03
 - Trend: —
 
 *Updated after each plan completion*
@@ -75,6 +77,7 @@ Recent decisions affecting current work:
 - [Roadmap]: 4 coarse horizontal-layer phases following the acyclic module build order (foundation/grid → physics → diurnal/scenarios → output).
 - [Roadmap]: Two headline science invariants pinned as tested success criteria — UHI-02 (urban>rural ordering) in Phase 2, TIME-02 (`gap_night > gap_afternoon`) in Phase 3.
 - [Phase 1]: 01-04 (seed data + driver + config round-trip test) was consolidated into 01-02 + 01-03 during execution — Phase 1 shipped as 3 plans delivering GRID-01..04.
+- [Phase 2]: Complete + verified (build clean, 16/16 tests pass under strict flags, UHI-02 ordering holds on real seed). See 02-VERIFICATION.md.
 
 ### Pending Todos
 
@@ -84,8 +87,9 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Phase 2/3]: UHI weights are illustrative, not fitted — tune so the peak night urban-rural gap lands in ~3-8 °C while ordering stays urban>rural (research gap).
-- [Phase 2]: Heat-index unit convention — run canonical Rothfusz in °F, present in °C; validate at the 80 °F boundary (B1).
+- [Phase 3]: UHI weights are illustrative, not fitted — tune so the peak night urban-rural gap lands in ~3-8 °C while ordering stays urban>rural (research gap).
+- [Phase 2 ✅ resolved]: Heat-index unit convention — canonical Rothfusz in °F, presented in °C; 80 °F boundary validated by test (B1).
+- [Phase 4]: Hybrid model (D-01) uses uniform `t_base` and ignores per-cell `cell%t_air` in the feels-like math, but the driver still displays per-cell `T=` next to `FEELS=`, so cool cells show `FEELS < displayed T` (e.g. Can Gio T=29.0 / FEELS=24.6). Correct per D-09 floor (vs `t_adj`, not `t_air`) — NOT the HEAT-02 bug — but an optics point: decide in Phase 4 whether to display `t_base` instead of/alongside `t_air`, or revisit D-01 if per-cell air temp should drive the result. (See 02-VERIFICATION.md.)
 
 ## Deferred Items
 
@@ -98,5 +102,5 @@ Items acknowledged and carried forward from previous milestone close:
 ## Session Continuity
 
 Last session: 2026-06-28T07:26:54.135Z
-Stopped at: Phase 1 complete; Phase 2 planned (3 plans, ready to execute)
-Resume file: .planning/phases/02-feels-like-physics-heat-index-uhi-offset/02-CONTEXT.md
+Stopped at: Phase 2 complete (verified); ready to discuss Phase 3
+Resume file: .planning/phases/02-feels-like-physics-heat-index-uhi-offset/02-VERIFICATION.md

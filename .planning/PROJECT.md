@@ -33,11 +33,11 @@ else matters.
       urban/rural classification. *(shipped — Phase 1)*
 - [x] Seed the grid from realistic-ish Ho Chi Minh City district data (e.g. District 1,
       Thu Duc, Can Gio, etc.) loaded from a data file rather than hard-coded constants. *(shipped — Phase 1)*
-- [ ] Compute a per-cell **heat index / apparent temperature** from air temperature and
-      humidity using an established formula.
-- [ ] Apply an **urban-heat-island adjustment** per cell: higher building density and
+- [x] Compute a per-cell **heat index / apparent temperature** from air temperature and
+      humidity using an established formula. *(shipped — Phase 2)*
+- [x] Apply an **urban-heat-island adjustment** per cell: higher building density and
       lower tree density raise the feels-like temperature; proximity to water and higher
-      tree density lower it.
+      tree density lower it. *(shipped — Phase 2)*
 - [ ] Model a **day–night cycle** by evaluating the grid at several times of day (e.g.
       morning / mid-afternoon peak / night) and reproduce the known result that the
       urban–rural temperature gap is largest at night.
@@ -100,7 +100,7 @@ else matters.
 | Day–night cycle (vs. single snapshot) | Night-time UHI gap is the signature scientific result worth showing | — Pending |
 | What-if scenario comparison included in v1 | Quantifying "more trees → how much cooler" is the key illustrative payoff | — Pending |
 | CSV output (vs. ASCII map / image) | Lets user plot nicely in external tools; keeps Fortran core simple | — Pending |
-| Heat index + UHI offset model | Standard, transparent parameterization matching the user's input factors | — Pending |
+| Heat index + UHI offset model | Standard, transparent parameterization matching the user's input factors | ✅ Shipped + verified (Phase 2) |
 | Build with fpm (vs plain Makefile) | fpm auto-resolves Fortran module compile order (the #1 hand-written-Makefile pain) and gives `fpm run`/`fpm test` for free; research-recommended | ✅ Shipped (Phase 1) |
 
 ## Evolution
@@ -121,4 +121,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-28 — Phase 1 complete (grid loader + seed data shipped); Phase 2 planned*
+*Last updated: 2026-06-28 — Phase 2 complete + verified (feels-like physics + UHI-02 ordering); Phase 3 next*

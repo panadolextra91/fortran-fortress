@@ -23,20 +23,20 @@ Requirements for the initial release. Each maps to roadmap phases.
 
 ### Feels-like Temperature
 
-- [ ] **HEAT-01**: The simulator computes a per-cell feels-like (apparent) temperature from
-      air temperature and relative humidity.
-- [ ] **HEAT-02**: The heat-index calculation guards its valid range — using the simple
+- [x] **HEAT-01**: The simulator computes a per-cell feels-like (apparent) temperature from
+      air temperature and relative humidity. *(shipped — Phase 2)*
+- [x] **HEAT-02**: The heat-index calculation guards its valid range — using the simple
       Steadman average below ~26.7 °C (80 °F) and the Rothfusz regression at/above it — so
-      cool night cells never produce nonsense (feels-like below air temp).
+      cool night cells never produce nonsense (feels-like below air temp). *(shipped — Phase 2)*
 
 ### Urban Heat Island Offset
 
-- [ ] **UHI-01**: The simulator applies an additive UHI temperature offset where higher
+- [x] **UHI-01**: The simulator applies an additive UHI temperature offset where higher
       building density and urban class raise feels-like, while higher tree density and
-      water proximity lower it.
-- [ ] **UHI-02**: For the same baseline weather, dense treeless urban cells rank hotter than
+      water proximity lower it. *(shipped — Phase 2)*
+- [x] **UHI-02**: For the same baseline weather, dense treeless urban cells rank hotter than
       green / waterfront / rural cells (monotonic ordering — the headline correctness check,
-      verified by an automated test).
+      verified by an automated test). *(shipped — Phase 2)*
 
 ### Day–Night Cycle
 
@@ -96,10 +96,10 @@ Which phases cover which requirements. **Populated during roadmap creation.**
 | GRID-02 | Phase 1 | ✅ Done |
 | GRID-03 | Phase 1 | ✅ Done |
 | GRID-04 | Phase 1 | ✅ Done |
-| HEAT-01 | Phase 2 | Pending |
-| HEAT-02 | Phase 2 | Pending |
-| UHI-01 | Phase 2 | Pending |
-| UHI-02 | Phase 2 | Pending |
+| HEAT-01 | Phase 2 | ✅ Done |
+| HEAT-02 | Phase 2 | ✅ Done |
+| UHI-01 | Phase 2 | ✅ Done |
+| UHI-02 | Phase 2 | ✅ Done |
 | TIME-01 | Phase 3 | Pending |
 | TIME-02 | Phase 3 | Pending |
 | SCEN-01 | Phase 3 | Pending |
@@ -111,8 +111,8 @@ Which phases cover which requirements. **Populated during roadmap creation.**
 - v1 requirements: 14 total
 - Mapped to phases: 14 ✓
 - Unmapped: 0
-- Shipped: 4 (GRID-01..04, Phase 1)
+- Shipped: 8 (GRID-01..04 Phase 1; HEAT-01/02, UHI-01/02 Phase 2)
 
 ---
 *Requirements defined: 2026-06-28*
-*Last updated: 2026-06-28 — Phase 1 complete: GRID-01..04 marked Done in traceability*
+*Last updated: 2026-06-28 — Phase 2 complete (verified): HEAT-01/02, UHI-01/02 marked Done in traceability*
