@@ -95,13 +95,17 @@ green/waterfront/rural) holds and is locked by an automated test.
 
   4. For the same baseline weather, dense treeless urban cells rank hotter than
      green / waterfront / rural cells (monotonic ordering) — verified by an automated test (UHI-02).
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
+**Wave 1** *(parallel — disjoint files)*
 
-- [ ] 02-01: heat_index_mod — elemental pure two-branch Steadman/Rothfusz with range guard; unit test vs published NWS reference values + 80 °F boundary
-- [ ] 02-02: uhi_mod — elemental pure additive offset over one temperature budget; weights from config
-- [ ] 02-03: Wire feels-like evaluation into the driver (baseline time) + automated dense-treeless > green-waterfront monotonicity test
+- [ ] 02-01-PLAN.md — heat_index_mod: extend constants_mod (c_to_f/f_to_c + Rothfusz coeffs) and add the elemental pure two-branch Steadman/Rothfusz kernel; NWS reference + 80 °F boundary test (HEAT-01, HEAT-02)
+- [ ] 02-02-PLAN.md — uhi_mod: elemental pure single-budget additive offset (Wprox = exp(−water_km/d0)); add tunable d0 to coeffs_t/namelist with fail-loud d0 > 0 guard; sign/monotonicity + magnitude test (UHI-01)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 02-03-PLAN.md — feels_mod wrapper (max(HeatIndex(t_base+ΔT, rh), t_adj)) + wire feels-like into the driver loop + synthetic-archetype dense-urban > green/waterfront/rural ordering test (HEAT-01, HEAT-02, UHI-02)
 
 ### Phase 3: Day-Night Cycle & Scenario Comparison
 
