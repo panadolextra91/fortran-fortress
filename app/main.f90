@@ -5,7 +5,7 @@ program uhi_sim
     use feels_mod, only: feels_like_c
     use diurnal_mod, only: NT, diurnal_m, diurnal_base, time_label
     use scenario_mod, only: scenario_t, apply_scenario
-    use summary_mod, only: urban_rural_gap
+    use summary_mod, only: urban_rural_gap, city_average
     use, intrinsic :: iso_fortran_env, only: error_unit, output_unit
     implicit none
     
@@ -95,11 +95,7 @@ program uhi_sim
             
             delta = feels_current - feels_baseline(:,:,it)
             
-            if (count(work%cells%occupied) > 0) then
-                avg_delta = sum(delta, mask=work%cells%occupied) / real(count(work%cells%occupied), wp)
-            else
-                avg_delta = 0.0_wp
-            end if
+            avg_delta = city_average(delta, work)
             
             if (scens(iscen)%is_baseline) then
                 gap_t = urban_rural_gap(feels_current, work)
