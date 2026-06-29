@@ -116,8 +116,6 @@ contains
         c%base_predawn = base_predawn
         c%add_trees_delta = add_trees_delta
         c%concrete_delta = concrete_delta
-        c%t_base = t_base
-        c%rh_base = rh_base
         c%d0 = d0
         c%nx = nx
         c%ny = ny

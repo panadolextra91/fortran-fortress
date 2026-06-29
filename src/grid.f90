@@ -25,7 +25,7 @@ module grid_mod
         real(wp) :: m_morning, m_afternoon, m_evening, m_predawn
         real(wp) :: base_morning, base_afternoon, base_evening, base_predawn
         real(wp) :: add_trees_delta, concrete_delta
-        real(wp) :: t_base, rh_base, d0
+        real(wp) :: d0
         integer :: nx, ny
     end type coeffs_t
 
