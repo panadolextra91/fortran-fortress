@@ -1,7 +1,7 @@
 program uhi_sim
     use kinds_mod, only: wp
     use grid_mod, only: grid_t, coeffs_t
-    use io_mod, only: read_coeffs_nml, read_grid_csv, write_results_csv
+    use io_mod, only: read_coeffs_nml, read_grid_csv, write_results_csv, real2str
     use feels_mod, only: feels_like_c
     use diurnal_mod, only: NT, diurnal_m, diurnal_base, time_label
     use scenario_mod, only: scenario_t, apply_scenario
@@ -126,18 +126,25 @@ program uhi_sim
         avg_t = city_average(feels_baseline(:,:,it), baseline_grid)
         gap_t = urban_rural_gap(feels_baseline(:,:,it), baseline_grid)
         
-        write(output_unit, '(A10,2X,A19,1X,F7.2,2X,A19,1X,F7.2,2X,F8.2,2X,F7.2)') &
-            trim(time_label(it)), &
-            trim(baseline_grid%cells(ih,jh)%name), vh, &
-            trim(baseline_grid%cells(ic,jc)%name), vc, &
-            avg_t, gap_t
+        ! WR-01: guard the sentinel (0,0) that hottest/coolest return for an empty
+        ! grid before dereferencing cells(ih,jh)%name (would be OOB under -fcheck=all).
+        if (ih > 0 .and. jh > 0 .and. ic > 0 .and. jc > 0) then
+            write(output_unit, '(A10,2X,A19,1X,F7.2,2X,A19,1X,F7.2,2X,F8.2,2X,F7.2)') &
+                trim(time_label(it)), &
+                trim(baseline_grid%cells(ih,jh)%name), vh, &
+                trim(baseline_grid%cells(ic,jc)%name), vc, &
+                avg_t, gap_t
+        else
+            write(output_unit, '(A10,2X,A)') trim(time_label(it)), '(no occupied cells)'
+        end if
     end do
     
     write(output_unit,'(A)') '--- Scenario city-average dT (C) ---'
     do iscen = 2, 3
         do it = 1, NT
-            write(output_unit, '(A,A,F0.2,A,A)') &
-                trim(scen_labels(iscen)), ': city-avg dT = ', avg_delta_all(it,iscen), ' C @ ', trim(time_label(it))
+            ! F-B (WR-05): real2str keeps the leading zero (0.76, not .76) and stays width-free.
+            write(output_unit, '(A,A,A,A,A)') &
+                trim(scen_labels(iscen)), ': city-avg dT = ', trim(real2str(avg_delta_all(it,iscen))), ' C @ ', trim(time_label(it))
         end do
     end do
     

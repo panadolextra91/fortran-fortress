@@ -5,7 +5,7 @@ module io_mod
     use diurnal_mod, only: NT, diurnal_base, time_label
     implicit none
     private
-    public :: read_coeffs_nml, read_grid_csv, write_results_csv
+    public :: read_coeffs_nml, read_grid_csv, write_results_csv, real2str
 
     integer, parameter :: NFIELD = 9
 
@@ -291,35 +291,67 @@ contains
         
         integer :: u, ios, i, j, it, iscen
         real(wp) :: base_t
-        
+
         stat = 0
         msg = ''
-        
+
+        ! WR-02: fail loudly if the result arrays are not conformant with the loop
+        ! bounds (nx, ny, NT, n_scenarios) before indexing them — a future caller
+        ! passing a mis-shaped array would otherwise read out of bounds.
+        if (size(feels_all,1) < g%nx .or. size(feels_all,2) < g%ny .or. &
+            size(feels_all,3) < NT   .or. size(feels_all,4) < size(scen_labels) .or. &
+            size(uhi_all,1)  < g%nx .or. size(uhi_all,2)  < g%ny .or. &
+            size(uhi_all,3)  < NT   .or. size(uhi_all,4)  < size(scen_labels)) then
+            stat = 1
+            msg = trim(path) // ': result array shape mismatch'
+            return
+        end if
+
         open(newunit=u, file=path, status='replace', action='write', iostat=ios, iomsg=msg)
         if (ios /= 0) then
             stat = ios
             return
         end if
-        
+
         write(u, '(A)') 'i,j,name,time_label,scenario,t_air,base_t,feels_c,uhi_offset_c'
-        
+
         do iscen = 1, size(scen_labels)
             do it = 1, NT
+                base_t = diurnal_base(c, it)   ! IN-01: timestep-invariant, hoisted out of i/j
                 do i = 1, g%nx
                     do j = 1, g%ny
                         if (.not. g%cells(i,j)%occupied) cycle
-                        
-                        base_t = diurnal_base(c, it)
-                        
-                        write(u, '(I0,",",I0,",",A,",",A,",",A,",",F0.2,",",F0.2,",",F0.2,",",F0.2)') &
+
+                        ! F-B (WR-05): real2str forces a leading zero for |x|<1 (width-free
+                        ! F0.2 drops it) while staying '.'-decimal and overflow-free (A9).
+                        write(u, '(I0,",",I0,",",A,",",A,",",A,",",A,",",A,",",A,",",A)') &
                             i, j, trim(g%cells(i,j)%name), trim(time_label(it)), trim(scen_labels(iscen)), &
-                            g%cells(i,j)%t_air, base_t, feels_all(i,j,it,iscen), uhi_all(i,j,it,iscen)
+                            real2str(g%cells(i,j)%t_air), real2str(base_t), &
+                            real2str(feels_all(i,j,it,iscen)), real2str(uhi_all(i,j,it,iscen))
                     end do
                 end do
             end do
         end do
-        
+
         close(u)
     end subroutine write_results_csv
+
+    pure function real2str(x) result(s)
+        !! Format a real with 2 decimals as a width-free string, ALWAYS with a leading
+        !! zero for |x|<1. gfortran's F0.2 emits ".76"/"-.49"; this yields "0.76"/"-0.49".
+        !! Width-free => no field-overflow asterisks and '.' decimal regardless of locale
+        !! (PITFALLS A9). Used by both the CSV writer and the console scenario recap.
+        real(wp), intent(in) :: x
+        character(len=:), allocatable :: s
+        character(len=64) :: buf
+
+        write(buf, '(F0.2)') x
+        s = trim(adjustl(buf))
+        if (s(1:1) == '.') then
+            s = '0' // s
+        else if (len(s) >= 2) then
+            if (s(1:2) == '-.') s = '-0' // s(2:)
+        end if
+    end function real2str
 
 end module io_mod

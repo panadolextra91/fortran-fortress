@@ -46,15 +46,22 @@ contains
         integer, intent(out) :: ih, jh
         real(wp), intent(out) :: val
         integer :: loc(2)
-        
-        if (count(g%cells%occupied) == 0) then
+        logical, allocatable :: mask(:,:)
+
+        ! WR-04 (F-A): copy the strided component slice into a contiguous local mask
+        ! before passing it to maxloc — passing g%cells%occupied directly forces a
+        ! runtime array temporary (same idiom as urban_rural_gap above).
+        allocate(mask(g%nx, g%ny))
+        mask = g%cells%occupied
+
+        if (count(mask) == 0) then
             ih = 0
             jh = 0
             val = 0.0_wp
             return
         end if
-        
-        loc = maxloc(feels, mask=g%cells%occupied)
+
+        loc = maxloc(feels, mask=mask)
         ih = loc(1)
         jh = loc(2)
         val = feels(ih, jh)
@@ -66,15 +73,20 @@ contains
         integer, intent(out) :: ic, jc
         real(wp), intent(out) :: val
         integer :: loc(2)
-        
-        if (count(g%cells%occupied) == 0) then
+        logical, allocatable :: mask(:,:)
+
+        ! WR-04 (F-A): contiguous local mask avoids the maxloc/minloc array temporary.
+        allocate(mask(g%nx, g%ny))
+        mask = g%cells%occupied
+
+        if (count(mask) == 0) then
             ic = 0
             jc = 0
             val = 0.0_wp
             return
         end if
-        
-        loc = minloc(feels, mask=g%cells%occupied)
+
+        loc = minloc(feels, mask=mask)
         ic = loc(1)
         jc = loc(2)
         val = feels(ic, jc)
