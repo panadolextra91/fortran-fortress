@@ -23,6 +23,8 @@ module grid_mod
     type, public :: coeffs_t
         real(wp) :: w_build, w_urban, w_tree, w_water
         real(wp) :: m_morning, m_afternoon, m_evening, m_predawn
+        real(wp) :: base_morning, base_afternoon, base_evening, base_predawn
+        real(wp) :: add_trees_delta, concrete_delta
         real(wp) :: t_base, rh_base, d0
         integer :: nx, ny
     end type coeffs_t

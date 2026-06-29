@@ -18,12 +18,16 @@ contains
         
         real(wp) :: w_build, w_urban, w_tree, w_water
         real(wp) :: m_morning, m_afternoon, m_evening, m_predawn
+        real(wp) :: base_morning, base_afternoon, base_evening, base_predawn
+        real(wp) :: add_trees_delta, concrete_delta
         real(wp) :: t_base, rh_base, d0
         integer :: nx, ny
         integer :: u, ios
         
         namelist /coeffs/ w_build, w_urban, w_tree, w_water, &
                           m_morning, m_afternoon, m_evening, m_predawn, &
+                          base_morning, base_afternoon, base_evening, base_predawn, &
+                          add_trees_delta, concrete_delta, &
                           t_base, rh_base, d0, nx, ny
                           
         ! Set defaults FIRST
@@ -35,6 +39,12 @@ contains
         m_afternoon = 0.3_wp
         m_evening = 0.8_wp
         m_predawn = 1.0_wp
+        base_morning = 29.0_wp
+        base_afternoon = 33.0_wp
+        base_evening = 30.0_wp
+        base_predawn = 25.0_wp
+        add_trees_delta = 0.2_wp
+        concrete_delta = 0.2_wp
         t_base = 28.0_wp
         rh_base = 78.0_wp
         d0 = 2.5_wp
@@ -64,6 +74,22 @@ contains
             return
         end if
         
+        if (base_morning < T_MIN .or. base_morning > T_MAX .or. &
+            base_afternoon < T_MIN .or. base_afternoon > T_MAX .or. &
+            base_evening < T_MIN .or. base_evening > T_MAX .or. &
+            base_predawn < T_MIN .or. base_predawn > T_MAX) then
+            stat = 1
+            msg = trim(path) // ': base_* out of range'
+            return
+        end if
+        
+        if (add_trees_delta <= 0.0_wp .or. add_trees_delta > 1.0_wp .or. &
+            concrete_delta <= 0.0_wp .or. concrete_delta > 1.0_wp) then
+            stat = 1
+            msg = trim(path) // ': delta out of range'
+            return
+        end if
+        
         c%w_build = w_build
         c%w_urban = w_urban
         c%w_tree = w_tree
@@ -72,6 +98,12 @@ contains
         c%m_afternoon = m_afternoon
         c%m_evening = m_evening
         c%m_predawn = m_predawn
+        c%base_morning = base_morning
+        c%base_afternoon = base_afternoon
+        c%base_evening = base_evening
+        c%base_predawn = base_predawn
+        c%add_trees_delta = add_trees_delta
+        c%concrete_delta = concrete_delta
         c%t_base = t_base
         c%rh_base = rh_base
         c%d0 = d0

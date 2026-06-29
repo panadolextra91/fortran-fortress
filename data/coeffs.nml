@@ -7,6 +7,12 @@
   m_afternoon = 0.3
   m_evening = 0.8
   m_predawn = 1.0
+  base_morning = 29.0
+  base_afternoon = 33.0
+  base_evening = 30.0
+  base_predawn = 25.0
+  add_trees_delta = 0.2
+  concrete_delta = 0.2
   t_base = 28.0
   rh_base = 78.0
   d0 = 2.5
