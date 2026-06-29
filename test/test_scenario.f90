@@ -57,6 +57,8 @@ contains
         orig_tree = baseline%cells(1,1)%tree
         
         add_trees%tree_delta = 0.2_wp
+        add_trees%building_delta = 0.0_wp
+        add_trees%is_baseline = .false.
         work = baseline
         call apply_scenario(work, add_trees)
         
@@ -71,6 +73,8 @@ contains
         call setup_grid(baseline)
         
         add_trees%tree_delta = 0.2_wp
+        add_trees%building_delta = 0.0_wp
+        add_trees%is_baseline = .false.
         work = baseline
         call apply_scenario(work, add_trees)
         call check(error, abs(work%cells(1,1)%building - baseline%cells(1,1)%building) < 1.0e-12_wp)
@@ -79,6 +83,8 @@ contains
         if (allocated(error)) return
         
         more_concrete%building_delta = 0.2_wp
+        more_concrete%tree_delta = 0.0_wp
+        more_concrete%is_baseline = .false.
         work = baseline
         call apply_scenario(work, more_concrete)
         call check(error, abs(work%cells(2,2)%tree - baseline%cells(2,2)%tree) < 1.0e-12_wp)
@@ -93,6 +99,8 @@ contains
         
         call setup_grid(baseline)
         add_trees%tree_delta = 0.2_wp
+        add_trees%building_delta = 0.0_wp
+        add_trees%is_baseline = .false.
         work = baseline
         call apply_scenario(work, add_trees)
         
@@ -110,6 +118,8 @@ contains
         call setup_grid(baseline)
         
         add_trees%tree_delta = 0.2_wp
+        add_trees%building_delta = 0.0_wp
+        add_trees%is_baseline = .false.
         work = baseline
         call apply_scenario(work, add_trees)
         

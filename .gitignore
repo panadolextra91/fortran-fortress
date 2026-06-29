@@ -4,3 +4,4 @@
 build/
 *.mod
 *.o
+results.csv

@@ -1,11 +1,12 @@
 program uhi_sim
     use kinds_mod, only: wp
     use grid_mod, only: grid_t, coeffs_t
-    use io_mod, only: read_coeffs_nml, read_grid_csv
+    use io_mod, only: read_coeffs_nml, read_grid_csv, write_results_csv
     use feels_mod, only: feels_like_c
     use diurnal_mod, only: NT, diurnal_m, diurnal_base, time_label
     use scenario_mod, only: scenario_t, apply_scenario
-    use summary_mod, only: urban_rural_gap, city_average
+    use summary_mod, only: urban_rural_gap, city_average, hottest, coolest
+    use uhi_mod, only: uhi_offset
     use, intrinsic :: iso_fortran_env, only: error_unit, output_unit
     implicit none
     
@@ -24,6 +25,13 @@ program uhi_sim
     real(wp), allocatable :: feels_current(:,:)
     real(wp), allocatable :: delta(:,:)
     real(wp) :: avg_delta, gap_t
+    
+    real(wp), allocatable :: feels_all(:,:,:,:)
+    real(wp), allocatable :: uhi_all(:,:,:,:)
+    real(wp) :: avg_delta_all(NT,3)
+    character(len=32) :: scen_labels(3)
+    integer :: ih, jh, ic, jc
+    real(wp) :: vh, vc, avg_t
     
     call read_coeffs_nml(COEFFS_PATH, coeffs, stat, msg)
     if (stat /= 0) then
@@ -60,6 +68,8 @@ program uhi_sim
     allocate(feels_baseline(baseline_grid%nx, baseline_grid%ny, NT))
     allocate(feels_current(baseline_grid%nx, baseline_grid%ny))
     allocate(delta(baseline_grid%nx, baseline_grid%ny))
+    allocate(feels_all(baseline_grid%nx, baseline_grid%ny, NT, 3))
+    allocate(uhi_all(baseline_grid%nx, baseline_grid%ny, NT, 3))
     
     scens(1)%label = 'baseline'
     scens(1)%is_baseline = .true.
@@ -74,7 +84,9 @@ program uhi_sim
     scens(3)%tree_delta = 0.0_wp
     scens(3)%building_delta = coeffs%concrete_delta
     
-    write(output_unit, *) '--- Scenarios ---'
+    scen_labels(1) = 'baseline'
+    scen_labels(2) = 'add_trees'
+    scen_labels(3) = 'more_concrete'
     do iscen = 1, 3
         work = baseline_grid
         call apply_scenario(work, scens(iscen))
@@ -91,23 +103,48 @@ program uhi_sim
                                              work%cells(i,j)%tree, work%cells(i,j)%water_km, work%cells(i,j)%is_urban, &
                                              coeffs%w_build, coeffs%w_urban, coeffs%w_tree, coeffs%w_water, coeffs%d0)
                     feels_current(i,j) = feels_val
+                    feels_all(i,j,it,iscen) = feels_val
+                    uhi_all(i,j,it,iscen) = m_t * uhi_offset(work%cells(i,j)%building, work%cells(i,j)%tree, &
+                                                             work%cells(i,j)%water_km, work%cells(i,j)%is_urban, &
+                                                             coeffs%w_build, coeffs%w_urban, coeffs%w_tree, &
+                                                             coeffs%w_water, coeffs%d0)
                     if (scens(iscen)%is_baseline) feels_baseline(i,j,it) = feels_val
                 end do
             end do
             
             delta = feels_current - feels_baseline(:,:,it)
-            
             avg_delta = city_average(delta, work)
-            
-            if (scens(iscen)%is_baseline) then
-                gap_t = urban_rural_gap(feels_current, work)
-                write(output_unit, '(A,A,F0.2,A)') &
-                    trim(time_label(it)), ': gap = ', gap_t, ' C'
-            end if
-            
-            write(output_unit, '(A,A,F0.2,A,A)') &
-                trim(scens(iscen)%label), ': city-avg dT = ', avg_delta, ' C @ ', trim(time_label(it))
+            avg_delta_all(it, iscen) = avg_delta
         end do
     end do
+    
+    write(output_unit,'(A)') '--- Baseline summary (feels-like, C) ---'
+    write(output_unit,'(A10,2X,A27,2X,A27,2X,A8,2X,A7)') 'Time', 'Hottest (C)', 'Coolest (C)', 'City-Avg', 'U-R Gap'
+    do it = 1, NT
+        call hottest(feels_baseline(:,:,it), baseline_grid, ih, jh, vh)
+        call coolest(feels_baseline(:,:,it), baseline_grid, ic, jc, vc)
+        avg_t = city_average(feels_baseline(:,:,it), baseline_grid)
+        gap_t = urban_rural_gap(feels_baseline(:,:,it), baseline_grid)
+        
+        write(output_unit, '(A10,2X,A19,1X,F7.2,2X,A19,1X,F7.2,2X,F8.2,2X,F7.2)') &
+            trim(time_label(it)), &
+            trim(baseline_grid%cells(ih,jh)%name), vh, &
+            trim(baseline_grid%cells(ic,jc)%name), vc, &
+            avg_t, gap_t
+    end do
+    
+    write(output_unit,'(A)') '--- Scenario city-average dT (C) ---'
+    do iscen = 2, 3
+        do it = 1, NT
+            write(output_unit, '(A,A,F0.2,A,A)') &
+                trim(scen_labels(iscen)), ': city-avg dT = ', avg_delta_all(it,iscen), ' C @ ', trim(time_label(it))
+        end do
+    end do
+    
+    call write_results_csv('results.csv', baseline_grid, coeffs, feels_all, uhi_all, scen_labels, stat, msg)
+    if (stat /= 0) then
+        write(error_unit,'(A)') trim(msg)
+        error stop 1
+    end if
     
 end program uhi_sim
