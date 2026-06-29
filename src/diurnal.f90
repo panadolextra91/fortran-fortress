@@ -1,6 +1,7 @@
 module diurnal_mod
     use kinds_mod, only: wp
     use grid_mod, only: coeffs_t
+    use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_quiet_nan
     implicit none
     private
     public :: NT, T_MORNING, T_AFTERNOON, T_EVENING, T_PREDAWN, &
@@ -24,8 +25,10 @@ contains
                 m = c%m_afternoon
             case (T_EVENING)
                 m = c%m_evening
-            case default
+            case (T_PREDAWN)
                 m = c%m_predawn
+            case default
+                m = ieee_value(1.0_wp, ieee_quiet_nan)
         end select
     end function diurnal_m
 
@@ -41,8 +44,10 @@ contains
                 base = c%base_afternoon
             case (T_EVENING)
                 base = c%base_evening
-            case default
+            case (T_PREDAWN)
                 base = c%base_predawn
+            case default
+                base = ieee_value(1.0_wp, ieee_quiet_nan)
         end select
     end function diurnal_base
 
@@ -57,8 +62,10 @@ contains
                 s = 'afternoon'
             case (T_EVENING)
                 s = 'evening'
-            case default
+            case (T_PREDAWN)
                 s = 'predawn'
+            case default
+                s = 'invalid'
         end select
     end function time_label
 
