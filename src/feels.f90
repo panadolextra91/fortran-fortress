@@ -9,15 +9,15 @@ module feels_mod
 
 contains
 
-    elemental pure function feels_like_c(t_base, rh, building, tree, water_km, is_urban, &
+    elemental pure function feels_like_c(t_base, m, rh, building, tree, water_km, is_urban, &
                                          w_build, w_urban, w_tree, w_water, d0) result(feels_c)
-        real(wp), intent(in) :: t_base, rh, building, tree, water_km
+        real(wp), intent(in) :: t_base, m, rh, building, tree, water_km
         logical,  intent(in) :: is_urban
         real(wp), intent(in) :: w_build, w_urban, w_tree, w_water, d0
         real(wp) :: feels_c, t_adj_c, hi_f
         
-        t_adj_c = t_base + uhi_offset(building, tree, water_km, is_urban, &
-                                      w_build, w_urban, w_tree, w_water, d0)
+        t_adj_c = t_base + m * uhi_offset(building, tree, water_km, is_urban, &
+                                          w_build, w_urban, w_tree, w_water, d0)
         hi_f    = heat_index_f(c_to_f(t_adj_c), rh)
         feels_c = max(f_to_c(hi_f), t_adj_c)
     end function feels_like_c

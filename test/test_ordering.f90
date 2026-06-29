@@ -37,19 +37,19 @@ contains
         rh = 78.0_wp
 
         ! industrial (building=0.95, tree=0.02, water_km=8.0, urban)
-        feels_industrial = feels_like_c(t_base, rh, 0.95_wp, 0.02_wp, 8.0_wp, .true., &
+        feels_industrial = feels_like_c(t_base, 1.0_wp, rh, 0.95_wp, 0.02_wp, 8.0_wp, .true., &
                                         w_build, w_urban, w_tree, w_water, d0)
         ! District-1 core (building=0.90, tree=0.10, water_km=3.0, urban)
-        feels_d1 = feels_like_c(t_base, rh, 0.90_wp, 0.10_wp, 3.0_wp, .true., &
+        feels_d1 = feels_like_c(t_base, 1.0_wp, rh, 0.90_wp, 0.10_wp, 3.0_wp, .true., &
                                 w_build, w_urban, w_tree, w_water, d0)
         ! park (building=0.30, tree=0.90, water_km=2.0, urban)
-        feels_park = feels_like_c(t_base, rh, 0.30_wp, 0.90_wp, 2.0_wp, .true., &
+        feels_park = feels_like_c(t_base, 1.0_wp, rh, 0.30_wp, 0.90_wp, 2.0_wp, .true., &
                                   w_build, w_urban, w_tree, w_water, d0)
         ! Can Gio coast (building=0.10, tree=0.70, water_km=0.0, rural)
-        feels_cangio = feels_like_c(t_base, rh, 0.10_wp, 0.70_wp, 0.0_wp, .false., &
+        feels_cangio = feels_like_c(t_base, 1.0_wp, rh, 0.10_wp, 0.70_wp, 0.0_wp, .false., &
                                     w_build, w_urban, w_tree, w_water, d0)
         ! rural fringe (building=0.10, tree=0.50, water_km=5.0, rural)
-        feels_rural = feels_like_c(t_base, rh, 0.10_wp, 0.50_wp, 5.0_wp, .false., &
+        feels_rural = feels_like_c(t_base, 1.0_wp, rh, 0.10_wp, 0.50_wp, 5.0_wp, .false., &
                                    w_build, w_urban, w_tree, w_water, d0)
 
         call check(error, feels_industrial > feels_park)
@@ -78,26 +78,26 @@ contains
         rh = 78.0_wp
 
         ! More building -> hotter
-        feels1 = feels_like_c(t_base, rh, 0.5_wp, 0.0_wp, 10.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
-        feels2 = feels_like_c(t_base, rh, 0.8_wp, 0.0_wp, 10.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
+        feels1 = feels_like_c(t_base, 1.0_wp, rh, 0.5_wp, 0.0_wp, 10.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
+        feels2 = feels_like_c(t_base, 1.0_wp, rh, 0.8_wp, 0.0_wp, 10.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
         call check(error, feels2 > feels1)
         if (allocated(error)) return
 
         ! More tree -> cooler
-        feels1 = feels_like_c(t_base, rh, 0.5_wp, 0.2_wp, 10.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
-        feels2 = feels_like_c(t_base, rh, 0.5_wp, 0.8_wp, 10.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
+        feels1 = feels_like_c(t_base, 1.0_wp, rh, 0.5_wp, 0.2_wp, 10.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
+        feels2 = feels_like_c(t_base, 1.0_wp, rh, 0.5_wp, 0.8_wp, 10.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
         call check(error, feels2 < feels1)
         if (allocated(error)) return
         
         ! Closer to water -> cooler
-        feels1 = feels_like_c(t_base, rh, 0.5_wp, 0.0_wp, 5.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
-        feels2 = feels_like_c(t_base, rh, 0.5_wp, 0.0_wp, 1.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
+        feels1 = feels_like_c(t_base, 1.0_wp, rh, 0.5_wp, 0.0_wp, 5.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
+        feels2 = feels_like_c(t_base, 1.0_wp, rh, 0.5_wp, 0.0_wp, 1.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
         call check(error, feels2 < feels1)
         if (allocated(error)) return
 
         ! Urban vs non-urban (all else equal) -> hotter
-        feels1 = feels_like_c(t_base, rh, 0.5_wp, 0.0_wp, 10.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
-        feels2 = feels_like_c(t_base, rh, 0.5_wp, 0.0_wp, 10.0_wp, .true., w_build, w_urban, w_tree, w_water, d0)
+        feels1 = feels_like_c(t_base, 1.0_wp, rh, 0.5_wp, 0.0_wp, 10.0_wp, .false., w_build, w_urban, w_tree, w_water, d0)
+        feels2 = feels_like_c(t_base, 1.0_wp, rh, 0.5_wp, 0.0_wp, 10.0_wp, .true., w_build, w_urban, w_tree, w_water, d0)
         call check(error, feels2 > feels1)
     end subroutine test_monotonicity
 
@@ -115,7 +115,7 @@ contains
         rh = 20.0_wp
         
         ! Cool/dry cell: building=0.0, tree=1.0, water_km=0.0, urban=F
-        feels = feels_like_c(t_base, rh, 0.0_wp, 1.0_wp, 0.0_wp, .false., &
+        feels = feels_like_c(t_base, 1.0_wp, rh, 0.0_wp, 1.0_wp, 0.0_wp, .false., &
                              w_build, w_urban, w_tree, w_water, d0)
                              
         ! Manually compute expected t_adj
