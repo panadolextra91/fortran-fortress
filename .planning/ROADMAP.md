@@ -166,12 +166,16 @@ urban-rural gap.
 
   4. The full pipeline runs end-to-end from a single `fpm run`: load → physics → diurnal →
      scenarios → CSV + summary, with no manual intermediate steps.
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
+**Wave 1** *(parallel — disjoint leaf-module additions, no driver dependency)*
 
-- [ ] 04-01: io_mod writer — deterministic CSV (cell × time × scenario), header row, comma-delimited width-free formats, iostat-checked
-- [ ] 04-02: summary_mod console report (hottest/coolest, city average, urban-rural gap per timestep) + final driver wiring and end-to-end run
+- [ ] 04-01-PLAN.md — output-support capabilities: `write_results_csv` in io_mod (deterministic CSV, exact 9-col header, comma-delimited width-free `F0.2`/`I0`, iostat-checked) + `hottest`/`coolest` reductions in summary_mod; new test_output.f90 + test_summary.f90 (OUT-01, OUT-02)
+
+**Wave 2** *(blocked on 04-01 — integrates the writer + reductions)*
+
+- [ ] 04-02-PLAN.md — driver wiring: collect feels_all + scenario-dependent uhi_all, single `write_results_csv` call, OUT-02 baseline table (hottest/coolest/city-avg/gap per timestep) + scenario-delta recap, end-to-end single-`fpm run` + results.csv verification (OUT-01, OUT-02)
 
 ## Progress
 
