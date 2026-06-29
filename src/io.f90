@@ -83,6 +83,12 @@ contains
             return
         end if
         
+        if (m_morning < 0 .or. m_afternoon < 0 .or. m_evening < 0 .or. m_predawn < 0) then
+            stat = 1
+            msg = trim(path) // ': m_* must be >= 0'
+            return
+        end if
+        
         if (add_trees_delta <= 0.0_wp .or. add_trees_delta > 1.0_wp .or. &
             concrete_delta <= 0.0_wp .or. concrete_delta > 1.0_wp) then
             stat = 1
