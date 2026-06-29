@@ -246,9 +246,10 @@ contains
         
         function int2str(val) result(res)
             integer, intent(in) :: val
-            character(len=32) :: res
-            write(res, '(I0)') val
-            res = trim(adjustl(res))
+            character(len=:), allocatable :: res
+            character(len=32) :: buf
+            write(buf, '(I0)') val
+            res = trim(adjustl(buf))
         end function int2str
     end subroutine read_grid_csv
 
