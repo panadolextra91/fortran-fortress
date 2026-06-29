@@ -38,12 +38,12 @@ else matters.
 - [x] Apply an **urban-heat-island adjustment** per cell: higher building density and
       lower tree density raise the feels-like temperature; proximity to water and higher
       tree density lower it. *(shipped — Phase 2)*
-- [ ] Model a **day–night cycle** by evaluating the grid at several times of day (e.g.
+- [x] Model a **day–night cycle** by evaluating the grid at several times of day (e.g.
       morning / mid-afternoon peak / night) and reproduce the known result that the
-      urban–rural temperature gap is largest at night.
-- [ ] Support **what-if scenario comparison**: run the same grid under a baseline plus
+      urban–rural temperature gap is largest at night. *(shipped — Phase 3)*
+- [x] Support **what-if scenario comparison**: run the same grid under a baseline plus
       alternative scenarios (e.g. "add trees", "more concrete") and quantify the cooling
-      or warming each scenario produces.
+      or warming each scenario produces. *(shipped — Phase 3)*
 - [ ] Export results to **CSV** (one row per cell per timestep/scenario) suitable for
       plotting in Excel / Python / gnuplot.
 - [ ] Print a short **terminal summary** when the program runs: hottest and coolest cells,
@@ -121,4 +121,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-28 — Phase 2 complete + verified (feels-like physics + UHI-02 ordering); Phase 3 next*
+*Last updated: 2026-06-29 — Phase 3 complete + reviewed (diurnal cycle + scenario engine; TIME-01/02, SCEN-01/02); Phase 4 (CSV export) next*

@@ -25,7 +25,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Build Scaffold & Grid Loader** - fpm project, foundation modules, and an editable HCMC grid that loads, validates, and prints ✅ Complete (2026-06-28)
 - [x] **Phase 2: Feels-Like Physics (Heat Index + UHI Offset)** - per-cell apparent temperature with range guard and the urban>rural ordering invariant ✅ Complete (2026-06-28, verified)
-- [ ] **Phase 3: Day-Night Cycle & Scenario Comparison** - diurnal evaluation carrying the night-amplified gap, plus immutable-baseline what-if scenarios
+- [x] **Phase 3: Day-Night Cycle & Scenario Comparison** - diurnal evaluation carrying the night-amplified gap, plus immutable-baseline what-if scenarios ✅ Complete (2026-06-29, verified)
 - [ ] **Phase 4: CSV Export & Console Summary** - deterministic CSV output and the terminal hottest/coolest/average/gap report
 
 ## Phase Details
@@ -134,15 +134,15 @@ against an immutable baseline.
 Plans:
 **Wave 1**
 
-- [ ] 03-01-PLAN.md — diurnal foundation: thread `m` into `feels_like_c` (signature change), extend `coeffs_t`/`coeffs.nml` with editable `base_*`+scenario deltas (validated), add `diurnal_mod`, evaluate grid at 4 timesteps; `m=1` regression locked (TIME-01)
+- [x] 03-01-PLAN.md — diurnal foundation: thread `m` into `feels_like_c` (signature change), extend `coeffs_t`/`coeffs.nml` with editable `base_*`+scenario deltas (validated), add `diurnal_mod`, evaluate grid at 4 timesteps; `m=1` regression locked (TIME-01)
 
 **Wave 2** *(blocked on Wave 1 — uses threaded feels + config deltas)*
 
-- [ ] 03-02-PLAN.md — scenario_mod: `type(scenario_t)`, copy-then-mutate immutable baseline, one-driver clamped "add trees" / "more concrete"; per-cell & city-average deltas apples-to-apples (SCEN-01, SCEN-02)
+- [x] 03-02-PLAN.md — scenario_mod: `type(scenario_t)`, copy-then-mutate immutable baseline, one-driver clamped "add trees" / "more concrete"; per-cell & city-average deltas apples-to-apples (SCEN-01, SCEN-02)
 
 **Wave 3** *(blocked on Wave 2 — shares the driver)*
 
-- [ ] 03-03-PLAN.md — summary_mod gap+city-average reductions + automated HARD `gap_predawn > gap_afternoon` and night-sanity invariant tests (soft 3–8 °C warn-only) + per-timestep gap console line (TIME-02)
+- [x] 03-03-PLAN.md — summary_mod gap+city-average reductions + automated HARD `gap_predawn > gap_afternoon` and night-sanity invariant tests (soft 3–8 °C warn-only) + per-timestep gap console line (TIME-02)
 
 ### Phase 4: CSV Export & Console Summary
 

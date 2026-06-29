@@ -40,17 +40,17 @@ Requirements for the initial release. Each maps to roadmap phases.
 
 ### Day–Night Cycle
 
-- [ ] **TIME-01**: The simulator evaluates the grid at multiple times of day (e.g. morning,
-      mid-afternoon peak, evening, pre-dawn night).
-- [ ] **TIME-02**: The urban–rural temperature gap is larger at night than at mid-afternoon
-      (night-amplified UHI), verified by an automated `gap_night > gap_afternoon` check.
+- [x] **TIME-01**: The simulator evaluates the grid at multiple times of day (e.g. morning,
+      mid-afternoon peak, evening, pre-dawn night). *(shipped — Phase 3)*
+- [x] **TIME-02**: The urban–rural temperature gap is larger at night than at mid-afternoon
+      (night-amplified UHI), verified by an automated `gap_night > gap_afternoon` check. *(shipped — Phase 3)*
 
 ### Scenario Comparison
 
-- [ ] **SCEN-01**: The simulator runs a baseline plus alternative what-if scenarios (at least
-      one "add trees" and one "more concrete") without mutating the baseline grid.
-- [ ] **SCEN-02**: For each scenario the simulator reports the per-cell and city-average
-      temperature change versus baseline.
+- [x] **SCEN-01**: The simulator runs a baseline plus alternative what-if scenarios (at least
+      one "add trees" and one "more concrete") without mutating the baseline grid. *(shipped — Phase 3)*
+- [x] **SCEN-02**: For each scenario the simulator reports the per-cell and city-average
+      temperature change versus baseline. *(shipped — Phase 3)*
 
 ### Output
 
@@ -100,10 +100,10 @@ Which phases cover which requirements. **Populated during roadmap creation.**
 | HEAT-02 | Phase 2 | ✅ Done |
 | UHI-01 | Phase 2 | ✅ Done |
 | UHI-02 | Phase 2 | ✅ Done |
-| TIME-01 | Phase 3 | Pending |
-| TIME-02 | Phase 3 | Pending |
-| SCEN-01 | Phase 3 | Pending |
-| SCEN-02 | Phase 3 | Pending |
+| TIME-01 | Phase 3 | ✅ Done |
+| TIME-02 | Phase 3 | ✅ Done |
+| SCEN-01 | Phase 3 | ✅ Done |
+| SCEN-02 | Phase 3 | ✅ Done |
 | OUT-01 | Phase 4 | Pending |
 | OUT-02 | Phase 4 | Pending |
 
@@ -111,8 +111,8 @@ Which phases cover which requirements. **Populated during roadmap creation.**
 - v1 requirements: 14 total
 - Mapped to phases: 14 ✓
 - Unmapped: 0
-- Shipped: 8 (GRID-01..04 Phase 1; HEAT-01/02, UHI-01/02 Phase 2)
+- Shipped: 12 (GRID-01..04 Phase 1; HEAT-01/02, UHI-01/02 Phase 2; TIME-01/02, SCEN-01/02 Phase 3)
 
 ---
 *Requirements defined: 2026-06-28*
-*Last updated: 2026-06-28 — Phase 2 complete (verified): HEAT-01/02, UHI-01/02 marked Done in traceability*
+*Last updated: 2026-06-29 — Phase 3 complete (reviewed round 2): TIME-01/02, SCEN-01/02 marked Done in traceability*
