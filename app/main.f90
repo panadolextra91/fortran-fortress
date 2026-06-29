@@ -85,6 +85,8 @@ program uhi_sim
             
             do j = 1, work%ny
                 do i = 1, work%nx
+                    ! Note (WR-01): per-cell t_air is display/reference-only.
+                    ! The diurnal base is citywide by design to avoid double-counting UHI.
                     feels_val = feels_like_c(base_t, m_t, work%cells(i,j)%rh, work%cells(i,j)%building, &
                                              work%cells(i,j)%tree, work%cells(i,j)%water_km, work%cells(i,j)%is_urban, &
                                              coeffs%w_build, coeffs%w_urban, coeffs%w_tree, coeffs%w_water, coeffs%d0)
