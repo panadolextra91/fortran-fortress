@@ -96,6 +96,12 @@ contains
             return
         end if
         
+        if (nx < 1 .or. ny < 1) then
+            stat = 1
+            msg = trim(path) // ': nx and ny must be >= 1'
+            return
+        end if
+        
         c%w_build = w_build
         c%w_urban = w_urban
         c%w_tree = w_tree
