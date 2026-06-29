@@ -151,6 +151,8 @@ contains
         lineno = 0
         read(u, '(A)', iostat=ios) line
         if (ios /= 0) then
+            call make_msg('cannot read header')
+            stat = 1
             close(u)
             return
         end if
@@ -229,6 +231,12 @@ contains
         end do
         
         close(u)
+        
+        if (g%ndist == 0) then
+            msg = trim(path) // ': no district rows'
+            stat = 1
+            return
+        end if
         
     contains
         subroutine make_msg(reason)
