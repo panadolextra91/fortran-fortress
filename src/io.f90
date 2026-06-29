@@ -2,9 +2,10 @@ module io_mod
     use kinds_mod, only: wp
     use constants_mod, only: T_MIN, T_MAX, RH_MIN, RH_MAX, DEN_MIN, DEN_MAX
     use grid_mod, only: cell, grid_t, coeffs_t, allocate_grid
+    use diurnal_mod, only: NT, diurnal_base, time_label
     implicit none
     private
-    public :: read_coeffs_nml, read_grid_csv
+    public :: read_coeffs_nml, read_grid_csv, write_results_csv
 
     integer, parameter :: NFIELD = 9
 
@@ -278,5 +279,47 @@ contains
             end if
         end do
     end subroutine split_commas
+    subroutine write_results_csv(path, g, c, feels_all, uhi_all, scen_labels, stat, msg)
+        character(len=*), intent(in) :: path
+        type(grid_t), intent(in) :: g
+        type(coeffs_t), intent(in) :: c
+        real(wp), intent(in) :: feels_all(:,:,:,:)
+        real(wp), intent(in) :: uhi_all(:,:,:,:)
+        character(len=*), intent(in) :: scen_labels(:)
+        integer, intent(out) :: stat
+        character(len=*), intent(out) :: msg
+        
+        integer :: u, ios, i, j, it, iscen
+        real(wp) :: base_t
+        
+        stat = 0
+        msg = ''
+        
+        open(newunit=u, file=path, status='replace', action='write', iostat=ios, iomsg=msg)
+        if (ios /= 0) then
+            stat = ios
+            return
+        end if
+        
+        write(u, '(A)') 'i,j,name,time_label,scenario,t_air,base_t,feels_c,uhi_offset_c'
+        
+        do iscen = 1, size(scen_labels)
+            do it = 1, NT
+                do i = 1, g%nx
+                    do j = 1, g%ny
+                        if (.not. g%cells(i,j)%occupied) cycle
+                        
+                        base_t = diurnal_base(c, it)
+                        
+                        write(u, '(I0,",",I0,",",A,",",A,",",A,",",F0.2,",",F0.2,",",F0.2,",",F0.2)') &
+                            i, j, trim(g%cells(i,j)%name), trim(time_label(it)), trim(scen_labels(iscen)), &
+                            g%cells(i,j)%t_air, base_t, feels_all(i,j,it,iscen), uhi_all(i,j,it,iscen)
+                    end do
+                end do
+            end do
+        end do
+        
+        close(u)
+    end subroutine write_results_csv
 
 end module io_mod
