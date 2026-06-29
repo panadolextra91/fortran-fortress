@@ -5,6 +5,7 @@ program uhi_sim
     use feels_mod, only: feels_like_c
     use diurnal_mod, only: NT, diurnal_m, diurnal_base, time_label
     use scenario_mod, only: scenario_t, apply_scenario
+    use summary_mod, only: urban_rural_gap
     use, intrinsic :: iso_fortran_env, only: error_unit, output_unit
     implicit none
     
@@ -22,7 +23,7 @@ program uhi_sim
     real(wp), allocatable :: feels_baseline(:,:,:)
     real(wp), allocatable :: feels_current(:,:)
     real(wp), allocatable :: delta(:,:)
-    real(wp) :: avg_delta
+    real(wp) :: avg_delta, gap_t
     
     call read_coeffs_nml(COEFFS_PATH, coeffs, stat, msg)
     if (stat /= 0) then
@@ -97,6 +98,12 @@ program uhi_sim
                 avg_delta = sum(delta, mask=work%cells%occupied) / real(count(work%cells%occupied), wp)
             else
                 avg_delta = 0.0_wp
+            end if
+            
+            if (iscen == 1) then
+                gap_t = urban_rural_gap(feels_current, work)
+                write(output_unit, '(A,A,F0.2,A)') &
+                    trim(time_label(it)), ': gap = ', gap_t, ' C'
             end if
             
             write(output_unit, '(A,A,F0.2,A,A)') &
