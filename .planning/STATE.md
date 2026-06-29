@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 4
+current_phase: 3
 current_phase_name: CSV Export & Console Summary
 status: ready
-stopped_at: Phase 3 complete (executed + code-reviewed round 2; 10/10 findings fixed, WR-07 rejected)
-last_updated: "2026-06-29T16:00:00.000Z"
+stopped_at: "Phase 4 context gathered (4 decisions locked: CSV schema, results.csv overwrite, occupied×scen×time rows, baseline summary table)"
+last_updated: "2026-06-29T15:36:20.173Z"
 last_activity: 2026-06-29
-last_activity_desc: "Phase 3 complete: executed (10 atomic commits) + code-review round 2 — all 10 findings fixed & verified, 30/30 tests pass under strict flags, core invariant holds; Phase 4 (CSV) next"
+last_activity_desc: "Phase 3 executed (10 atomic commits) + code-review round 2: all 10 findings fixed & verified, WR-07 rejected"
 progress:
   total_phases: 4
   completed_phases: 3
@@ -104,6 +104,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-06-29T16:00:00.000Z
-Stopped at: Phase 3 complete — executed (10 atomic commits) + code-reviewed (round 2), all 10 findings fixed & verified
-Resume file: Phase 4 — CSV Export & Console Summary (not yet planned; start with /gsd-plan-phase 4)
+Last session: 2026-06-29T15:36:20.166Z
+Stopped at: Phase 4 context gathered (4 decisions locked: CSV schema, results.csv overwrite, occupied×scen×time rows, baseline summary table)
+Resume file: .planning/phases/04-csv-export-console-summary/04-CONTEXT.md
