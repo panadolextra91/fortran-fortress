@@ -62,6 +62,7 @@ program uhi_sim
     allocate(delta(baseline_grid%nx, baseline_grid%ny))
     
     scens(1)%label = 'baseline'
+    scens(1)%is_baseline = .true.
     scens(1)%tree_delta = 0.0_wp
     scens(1)%building_delta = 0.0_wp
     
@@ -88,7 +89,7 @@ program uhi_sim
                                              work%cells(i,j)%tree, work%cells(i,j)%water_km, work%cells(i,j)%is_urban, &
                                              coeffs%w_build, coeffs%w_urban, coeffs%w_tree, coeffs%w_water, coeffs%d0)
                     feels_current(i,j) = feels_val
-                    if (iscen == 1) feels_baseline(i,j,it) = feels_val
+                    if (scens(iscen)%is_baseline) feels_baseline(i,j,it) = feels_val
                 end do
             end do
             
@@ -100,7 +101,7 @@ program uhi_sim
                 avg_delta = 0.0_wp
             end if
             
-            if (iscen == 1) then
+            if (scens(iscen)%is_baseline) then
                 gap_t = urban_rural_gap(feels_current, work)
                 write(output_unit, '(A,A,F0.2,A)') &
                     trim(time_label(it)), ': gap = ', gap_t, ' C'

@@ -7,6 +7,7 @@ module scenario_mod
 
     type, public :: scenario_t
         character(len=:), allocatable :: label
+        logical :: is_baseline = .false.
         real(wp) :: tree_delta = 0.0_wp
         real(wp) :: building_delta = 0.0_wp
     end type scenario_t
