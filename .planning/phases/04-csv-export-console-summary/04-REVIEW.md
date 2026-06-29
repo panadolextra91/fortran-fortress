@@ -12,9 +12,9 @@ files_reviewed_list:
   - test/test_scenario.f90
 findings:
   critical: 0
-  warning: 3
+  warning: 5
   info: 3
-  total: 6
+  total: 8
 status: issues_found
 ---
 
@@ -115,6 +115,37 @@ through, which prints as `NaN`/`*`) degrades the human-readable summary.
 into a `character` buffer and place it in the table, or widen to a margin that cannot
 overflow given the validated input ranges.
 
+### WR-04: `maxloc`/`minloc` over a derived-type component mask creates a runtime array temporary
+
+**File:** `src/summary.f90:57, 77` (`hottest`/`coolest`)
+**Issue:** Surfaced by a functional `fpm run`/`fpm test` under the project strict flags
+(`-fcheck=all`). `loc = maxloc(feels, mask=g%cells%occupied)` passes `g%cells%occupied` — a
+strided component slice of a derived-type array — directly as the `mask=` actual argument,
+which is non-contiguous, so gfortran materializes a contiguous copy and emits
+`At line 57 of file ./src/summary.f90 / Fortran runtime warning: An array temporary was
+created` (likewise line 77). Two consequences: (1) under the documented dev strict flags
+these warnings print to stderr *interleaved with the OUT-02 console summary*, degrading the
+"tiny readable report" deliverable (D-06); (2) the implicit per-call allocation is avoidable.
+Clean under release flags (no `-fcheck`), but a real quality wart during development.
+**Fix:** Copy the mask into a contiguous local `logical, allocatable :: mask(:,:)` first
+(the idiom `urban_rural_gap` already uses, summary.f90:14-20), then pass `mask=mask` to the
+intrinsic. Removes the temporary and tightens the call.
+
+### WR-05: width-free `F0.2` drops the leading zero for |value| < 1 in CSV and console
+
+**File:** `src/io.f90:314-316` (CSV `uhi_offset_c`), `app/main.f90:139-140` (scenario recap)
+**Issue:** Surfaced by inspecting the generated `results.csv` and console output. gfortran's
+width-free `F0.2` emits `.76` / `-.49` (no leading zero) for magnitudes below 1. This appears
+in the CSV `uhi_offset_c` column (e.g. `-.49`, `.76`) and the console scenario recap
+(`city-avg dT = .76 C`, `-.67 C`). These parse correctly in Excel / Python (`float('.76')`)
+/ gnuplot, so OUT-01's "parses cleanly" criterion still holds and this is **not** a blocker —
+but it is non-standard, ugly in the human-facing recap, and can surprise stricter downstream
+parsers. (The fixed-width `F7.2`/`F8.2` console table at main.f90:129 is unaffected — fixed
+widths keep the leading zero; only the width-free `F0.2` paths drop it.)
+**Fix:** Format each affected real through a small helper that runs `F0.2` then prepends a
+leading `0` (`.76`→`0.76`, `-.49`→`-0.49`), keeping the output width-free (A9-safe) and
+`.`-decimal.
+
 ## Info
 
 ### IN-01: `base_t` recomputed in the innermost CSV loop
@@ -150,12 +181,33 @@ in quotes and double embedded quotes.
 `uhi_offset(...)`. This is internally consistent — it equals exactly the UHI contribution
 added to `base_t` inside `feels_like_c` — and is arguably the more useful quantity, but the
 column name could mislead a consumer expecting the un-scaled coefficient output.
-**Fix:** Optional — either rename the column to reflect the scaling (e.g.
-`uhi_applied_c`) or add a one-line comment/data dictionary entry clarifying that the value
-is `m * uhi_offset`.
+**Fix:** Optional — and the column MUST NOT be renamed: CONTEXT D-04 locks both the header
+string `uhi_offset_c` and its semantics as "the **applied** offset at that timestep
+(`m(t)·ΔT_UHI`)". So the stored `m_t * uhi_offset` is exactly per spec; the only safe option
+is a data-dictionary/comment note. No code change.
+
+## Resolution (2026-06-30)
+
+Fixes applied directly (verified: full `fpm test` green + `fpm run` under strict flags
+`-std=f2018 -fcheck=all -ffpe-trap=invalid,zero,overflow -Wall -Wextra -finit-real=snan`;
+`results.csv` byte-identical across runs; 0 compiler warnings in io/summary/main).
+
+| Finding | Status | What changed |
+|---------|--------|--------------|
+| WR-01 | ✅ Fixed | `app/main.f90` baseline-table loop guards `ih/jh/ic/jc > 0` before dereferencing `cells(...)%name`; prints `(no occupied cells)` on the sentinel. |
+| WR-02 | ✅ Fixed | `src/io.f90 write_results_csv` asserts `feels_all`/`uhi_all` extents vs `nx/ny/NT/size(scen_labels)` at entry, returns `stat=1` + `result array shape mismatch` on a mismatch. |
+| WR-03 | ⏸️ Accepted | Console `F7.2`/`F8.2` left as-is: feels temps are validation-bounded (no `*****` possible by construction) and width-free output would break the table's column alignment. Documented, no change. |
+| WR-04 (F-A) | ✅ Fixed | `src/summary.f90 hottest`/`coolest` copy the occupied mask into a contiguous local `logical` array before `maxloc`/`minloc` — removes the runtime array temporary; console summary now prints clean (no `At line ...` stderr spam). |
+| WR-05 (F-B) | ✅ Fixed | New `pure function real2str` in `io_mod` (public) runs `F0.2` then forces a leading zero (`.76`→`0.76`, `-.49`→`-0.49`), used by the CSV writer and the console scenario recap. Still width-free / `.`-decimal (A9-safe). |
+| IN-01 | ✅ Fixed | `base_t = diurnal_base(c, it)` hoisted out of the `i`/`j` loops in `write_results_csv`. |
+| IN-02 | ⏸️ Accepted | CSV `name` unquoted is by design (controlled comma-free seed data, CLAUDE.md). |
+| IN-03 | ⏸️ N/A | `uhi_offset_c = m·uhi_offset` is exactly per locked CONTEXT D-04 (the *applied* offset). Header must not change. No defect. |
+
+**New artifact:** `real2str` — public `pure function` in `io_mod` (`src/io.f90`).
 
 ---
 
 _Reviewed: 2026-06-30_
 _Reviewer: Claude (gsd-code-reviewer)_
 _Depth: standard_
+_Fixes applied + verified: 2026-06-30 (Claude, direct fix per user request)_
